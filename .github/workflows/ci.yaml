@@ -21,7 +21,7 @@ jobs:
             - name: Make
               run: make
               env:
-                  CPLUS_INCLUDE_PATH: "/usr/include/aarch64-linux-gnu:/usr/local/cuda/targets/aarch64-linux-gnu/include"
+                  CPLUS_INCLUDE_PATH: "/usr/local/cuda/targets/x86_64-linux-gnu/include"
 
             - name: Upload
               uses: actions/upload-artifact@v4
