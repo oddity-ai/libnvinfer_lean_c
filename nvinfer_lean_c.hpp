@@ -1,7 +1,7 @@
 #ifndef nvinfer_lean_c
 #define nvinfer_lean_c
 
-#include "TensorRT/include/NvInfer.h"
+#include <NvInfer.h>
 
 //!
 //! \enum ExecutionContextAllocationStrategy
