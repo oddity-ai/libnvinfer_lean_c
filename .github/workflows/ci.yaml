@@ -10,4 +10,19 @@ jobs:
     build:
         name: build
         runs-on: ubuntu-latest
-        container: TODO
+        container: nvcr.io/nvidia/tensorrt:25.06-py3
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Make
+              run: make
+
+            - name: Upload
+              uses: actions/upload-artifact@v4
+              with:
+                  name: libnvinfer_lean_c
+                  path: libnvinfer_lean_c.so
+                  retention-days: 365
+                  if-no-files-found: error
