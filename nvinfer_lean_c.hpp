@@ -34,6 +34,20 @@ typedef enum nvinfer1_TensorIOMode
 } nvinfer1_TensorIOMode;
 
 //!
+//! \class ILogger
+//!
+//! \brief Application-implemented logging interface for the builder, refitter and runtime.
+//!
+//! The logger used to create an instance of IBuilder, IRuntime or IRefitter is used for all objects created through
+//! that interface. The logger must be valid until all objects created are released.
+//!
+//! The Logger object implementation must be thread safe. All locking and synchronization is pushed to the
+//! interface implementation and TensorRT does not hold any synchronization primitives when calling the interface
+//! functions.
+//!
+struct nvinfer1_ILogger;
+
+//!
 //! \class ICudaEngine
 //!
 //! \brief An engine for executing inference on a built network, with functionally unsafe features.
@@ -216,6 +230,13 @@ extern "C" bool nvinfer1_IExecutionContext_enqueueV3(nvinfer1_IExecutionContext 
 //! \brief Destroy the IExecutionContext instance.
 //!
 extern "C" void nvinfer1_IExecutionContext_destroy(nvinfer1_IExecutionContext *context);
+
+//!
+//! \brief Create an instance of an IRuntime class.
+//!
+//! \param logger The logging class for the runtime.
+//!
+extern "C" nvinfer1_IRuntime* nvinfer1_createInferRuntime(nvinfer1_ILogger *logger);
 
 //!
 //! \brief Deserialize an engine from host memory.

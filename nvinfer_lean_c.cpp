@@ -56,6 +56,12 @@ void nvinfer1_IExecutionContext_destroy(nvinfer1_IExecutionContext *context)
 
 // IRuntime
 
+nvinfer1_IRuntime *nvinfer1_createInferRuntime(nvinfer1_ILogger *logger)
+{
+    return reinterpret_cast<nvinfer1_IRuntime *>(
+        nvinfer1::createInferRuntime(*reinterpret_cast<nvinfer1::ILogger *>(logger)));
+}
+
 nvinfer1_ICudaEngine *nvinfer1_IRuntime_deserializeCudaEngine(nvinfer1_IRuntime *runtime, const void *blob, size_t size)
 {
     return reinterpret_cast<nvinfer1_ICudaEngine *>(
