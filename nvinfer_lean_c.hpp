@@ -236,7 +236,7 @@ extern "C" void nvinfer1_IExecutionContext_destroy(nvinfer1_IExecutionContext *c
 //!
 //! \param logger The logging class for the runtime.
 //!
-extern "C" nvinfer1_IRuntime* nvinfer1_createInferRuntime(nvinfer1_ILogger *logger);
+extern "C" nvinfer1_IRuntime *nvinfer1_createInferRuntime(nvinfer1_ILogger *logger);
 
 //!
 //! \brief Deserialize an engine from host memory.
