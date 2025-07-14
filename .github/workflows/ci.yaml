@@ -10,6 +10,8 @@ jobs:
     build:
         name: build
         runs-on: ubuntu-latest
+        # TensorRT 10.11.0.33
+        # CUDA 12.9.1
         container: nvcr.io/nvidia/tensorrt:25.06-py3
 
         steps:
