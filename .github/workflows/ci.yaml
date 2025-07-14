@@ -29,6 +29,6 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: libnvinfer_lean_c
-                  path: libnvinfer_lean_c.so
+                  path: libnvinfer_lean_c.so.10.11.0
                   retention-days: 365
                   if-no-files-found: error

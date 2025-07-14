@@ -4,7 +4,7 @@ CXXFLAGS   := -O3 -Wall -Wextra -pedantic -fPIC
 LDFLAGS    := -shared
 LIBS       := -lnvinfer_lean
 
-TARGET     := libnvinfer_lean_c.so
+TARGET     := libnvinfer_lean_c.so.10.11.0
 SRC        := nvinfer_lean_c.cpp
 OBJ        := $(SRC:.cpp=.o)
 
