@@ -75,7 +75,7 @@ struct nvinfer1_IRuntime;
 //! \see IExecutionContext::setOptimizationProfileAsync()
 //! \see ExecutionContextAllocationStrategy
 //!
-extern "C" nvinfer1_ICudaEngine *nvinfer1_ICudaEngine_createExecutionContext(
+extern "C" nvinfer1_IExecutionContext *nvinfer1_ICudaEngine_createExecutionContext(
     nvinfer1_ICudaEngine *engine, nvinfer1_ExecutionContextAllocationStrategy strategy);
 
 //!

@@ -2,10 +2,10 @@
 
 // ICudaEngine
 
-nvinfer1_ICudaEngine *nvinfer1_ICudaEngine_createExecutionContext(nvinfer1_ICudaEngine *engine,
+nvinfer1_IExecutionContext *nvinfer1_ICudaEngine_createExecutionContext(nvinfer1_ICudaEngine *engine,
                                                                   nvinfer1_ExecutionContextAllocationStrategy strategy)
 {
-    return reinterpret_cast<nvinfer1_ICudaEngine *>(
+    return reinterpret_cast<nvinfer1_IExecutionContext *>(
         reinterpret_cast<nvinfer1::ICudaEngine *>(engine)->createExecutionContext(
             static_cast<nvinfer1::ExecutionContextAllocationStrategy>(strategy)));
 }
