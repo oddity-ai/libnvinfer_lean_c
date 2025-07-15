@@ -34,6 +34,20 @@ typedef enum nvinfer1_TensorIOMode
 } nvinfer1_TensorIOMode;
 
 //!
+//! \enum Severity
+//!
+//! \brief The severity corresponding to a log message.
+//!
+typedef enum nvinfer1_Severity
+{
+    kINTERNAL_ERROR = 0, //! An internal error has occurred. Execution is unrecoverable.
+    kERROR = 1,          //! An application error has occurred.
+    kWARNING = 2,        //! An application error has been discovered, but TensorRT has recovered or fallen back to a default.
+    kINFO = 3,           //! Informational messages with instructional information.
+    kVERBOSE = 4,        //! Verbose messages with debugging information.
+} nvinfer1_Severity;
+
+//!
 //! \class ILogger
 //!
 //! \brief Application-implemented logging interface for the builder, refitter and runtime.
@@ -46,6 +60,47 @@ typedef enum nvinfer1_TensorIOMode
 //! functions.
 //!
 struct nvinfer1_ILogger;
+
+//!
+//! \class Logger
+//!
+//! \brief Implements a global ILogger that allows setting the callback using setCallback.
+//!
+class Logger : public nvinfer1::ILogger
+{
+public:
+    //!
+    //! \brief Log a message with a given severity.
+    //!
+    //! \param severity The severity of the log message.
+    //! \param msg The message to log.
+    //!
+    void log(nvinfer1_Severity severity, const char* msg) noexcept override {
+        if (callback) {
+            callback(severity, msg);
+        }
+    }
+
+    //!
+    //! \brief Set a custom logging callback function.
+    //!
+    //! \param callback A C-style function pointer to handle logging.
+    //!           The function should accept nvinfer1_Severity and const char* as parameters.
+    //!
+    //! By default, the callback does nothing.
+    //!
+    void setCallback(void (*callback)(nvinfer1_Severity, const char*)) noexcept {
+        callback = callback;
+    }
+
+private:
+    void (*callback)(nvinfer1_Severity, const char*) = nullptr; //!< Pointer to the custom logging callback function.
+};
+
+//!
+//! \brief Global logger instance.
+//!
+Logger LOGGER;
 
 //!
 //! \class ICudaEngine
@@ -258,5 +313,13 @@ extern "C" nvinfer1_ICudaEngine *nvinfer1_IRuntime_deserializeCudaEngine(nvinfer
 //! \brief Destroy the IRuntime instance.
 //!
 extern "C" void nvinfer1_IRuntime_destroy(nvinfer1_IRuntime *runtime);
+
+//!
+//! \brief Set the callback function for the LOGGER.
+//!
+//! \param callback A C-style function pointer to handle logging.
+//!                 The function should accept nvinfer1_Severity and const char* as parameters.
+//!
+extern "C" void nvinfer1_setLoggerCallback(void (*callback)(nvinfer1_Severity, const char*));
 
 #endif // nvinfer_lean_c

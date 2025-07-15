@@ -72,3 +72,9 @@ void nvinfer1_IRuntime_destroy(nvinfer1_IRuntime *runtime)
 {
     delete reinterpret_cast<nvinfer1::IRuntime *>(runtime);
 }
+
+// Logger
+
+void nvinfer1_setLoggerCallback(void (*callback)(nvinfer1_Severity, const char*)) {
+    LOGGER.setCallback(callback);
+}
