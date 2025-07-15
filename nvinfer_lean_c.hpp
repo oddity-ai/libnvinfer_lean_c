@@ -75,7 +75,7 @@ class Logger : public nvinfer1::ILogger
     //! \param severity The severity of the log message.
     //! \param msg The message to log.
     //!
-    void log(nvinfer1::Severity severity, const char *msg) noexcept override;
+    void log(nvinfer1::ILogger::Severity severity, const char *msg) noexcept override;
 
     //!
     //! \brief Set a custom logging callback function.

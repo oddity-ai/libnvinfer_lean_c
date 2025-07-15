@@ -80,7 +80,7 @@ void nvinfer1_IRuntime_destroy(nvinfer1_IRuntime *runtime)
 //!
 Logger LOGGER;
 
-void Logger::log(nvinfer1::Severity severity, const char *msg) noexcept
+void Logger::log(nvinfer1::ILogger::Severity severity, const char *msg) noexcept
 {
     if (callback)
     {
