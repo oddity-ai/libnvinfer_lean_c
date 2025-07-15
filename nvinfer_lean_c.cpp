@@ -75,6 +75,24 @@ void nvinfer1_IRuntime_destroy(nvinfer1_IRuntime *runtime)
 
 // Logger
 
+//!
+//! \brief Global logger instance.
+//!
+Logger LOGGER;
+
+void Logger::log(nvinfer1::Severity severity, const char *msg) noexcept
+{
+    if (callback)
+    {
+        callback(static_cast<nvinfer1_Severity>(severity), msg);
+    }
+}
+
+void Logger::setCallback(void (*callback)(nvinfer1_Severity, const char *)) noexcept
+{
+    this->callback = callback;
+}
+
 void nvinfer1_setLoggerCallback(void (*callback)(nvinfer1_Severity, const char *))
 {
     LOGGER.setCallback(callback);

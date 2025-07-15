@@ -75,13 +75,7 @@ class Logger : public nvinfer1::ILogger
     //! \param severity The severity of the log message.
     //! \param msg The message to log.
     //!
-    void log(nvinfer1_Severity severity, const char *msg) noexcept override
-    {
-        if (callback)
-        {
-            callback(severity, msg);
-        }
-    }
+    void log(nvinfer1::Severity severity, const char *msg) noexcept override;
 
     //!
     //! \brief Set a custom logging callback function.
@@ -91,19 +85,11 @@ class Logger : public nvinfer1::ILogger
     //!
     //! By default, the callback does nothing.
     //!
-    void setCallback(void (*callback)(nvinfer1_Severity, const char *)) noexcept
-    {
-        callback = callback;
-    }
+    void setCallback(void (*callback)(nvinfer1_Severity, const char *)) noexcept;
 
   private:
     void (*callback)(nvinfer1_Severity, const char *) = nullptr; //!< Pointer to the custom logging callback function.
 };
-
-//!
-//! \brief Global logger instance.
-//!
-Logger LOGGER;
 
 //!
 //! \class ICudaEngine
