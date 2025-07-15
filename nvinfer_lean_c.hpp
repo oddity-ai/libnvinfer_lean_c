@@ -42,9 +42,9 @@ typedef enum nvinfer1_Severity
 {
     kINTERNAL_ERROR = 0, //! An internal error has occurred. Execution is unrecoverable.
     kERROR = 1,          //! An application error has occurred.
-    kWARNING = 2,        //! An application error has been discovered, but TensorRT has recovered or fallen back to a default.
-    kINFO = 3,           //! Informational messages with instructional information.
-    kVERBOSE = 4,        //! Verbose messages with debugging information.
+    kWARNING = 2, //! An application error has been discovered, but TensorRT has recovered or fallen back to a default.
+    kINFO = 3,    //! Informational messages with instructional information.
+    kVERBOSE = 4, //! Verbose messages with debugging information.
 } nvinfer1_Severity;
 
 //!
@@ -68,15 +68,17 @@ struct nvinfer1_ILogger;
 //!
 class Logger : public nvinfer1::ILogger
 {
-public:
+  public:
     //!
     //! \brief Log a message with a given severity.
     //!
     //! \param severity The severity of the log message.
     //! \param msg The message to log.
     //!
-    void log(nvinfer1_Severity severity, const char* msg) noexcept override {
-        if (callback) {
+    void log(nvinfer1_Severity severity, const char *msg) noexcept override
+    {
+        if (callback)
+        {
             callback(severity, msg);
         }
     }
@@ -89,12 +91,13 @@ public:
     //!
     //! By default, the callback does nothing.
     //!
-    void setCallback(void (*callback)(nvinfer1_Severity, const char*)) noexcept {
+    void setCallback(void (*callback)(nvinfer1_Severity, const char *)) noexcept
+    {
         callback = callback;
     }
 
-private:
-    void (*callback)(nvinfer1_Severity, const char*) = nullptr; //!< Pointer to the custom logging callback function.
+  private:
+    void (*callback)(nvinfer1_Severity, const char *) = nullptr; //!< Pointer to the custom logging callback function.
 };
 
 //!
@@ -320,6 +323,6 @@ extern "C" void nvinfer1_IRuntime_destroy(nvinfer1_IRuntime *runtime);
 //! \param callback A C-style function pointer to handle logging.
 //!                 The function should accept nvinfer1_Severity and const char* as parameters.
 //!
-extern "C" void nvinfer1_setLoggerCallback(void (*callback)(nvinfer1_Severity, const char*));
+extern "C" void nvinfer1_setLoggerCallback(void (*callback)(nvinfer1_Severity, const char *));
 
 #endif // nvinfer_lean_c

@@ -2,8 +2,8 @@
 
 // ICudaEngine
 
-nvinfer1_IExecutionContext *nvinfer1_ICudaEngine_createExecutionContext(nvinfer1_ICudaEngine *engine,
-                                                                  nvinfer1_ExecutionContextAllocationStrategy strategy)
+nvinfer1_IExecutionContext *nvinfer1_ICudaEngine_createExecutionContext(
+    nvinfer1_ICudaEngine *engine, nvinfer1_ExecutionContextAllocationStrategy strategy)
 {
     return reinterpret_cast<nvinfer1_IExecutionContext *>(
         reinterpret_cast<nvinfer1::ICudaEngine *>(engine)->createExecutionContext(
@@ -75,6 +75,7 @@ void nvinfer1_IRuntime_destroy(nvinfer1_IRuntime *runtime)
 
 // Logger
 
-void nvinfer1_setLoggerCallback(void (*callback)(nvinfer1_Severity, const char*)) {
+void nvinfer1_setLoggerCallback(void (*callback)(nvinfer1_Severity, const char *))
+{
     LOGGER.setCallback(callback);
 }
