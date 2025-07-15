@@ -304,6 +304,13 @@ extern "C" nvinfer1_ICudaEngine *nvinfer1_IRuntime_deserializeCudaEngine(nvinfer
 extern "C" void nvinfer1_IRuntime_destroy(nvinfer1_IRuntime *runtime);
 
 //!
+//! \brief Retrieve the global logger instance.
+//!
+//! \return A pointer to the global nvinfer1_ILogger instance.
+//!
+extern "C" nvinfer1_ILogger *nvinfer1_getLogger();
+
+//!
 //! \brief Set the callback function for the LOGGER.
 //!
 //! \param callback A C-style function pointer to handle logging.
