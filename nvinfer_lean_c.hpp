@@ -16,10 +16,69 @@
 //!
 typedef enum nvinfer1_ExecutionContextAllocationStrategy
 {
-    kSTATIC = 0,            //!< Default static allocation with the maximum size across all profiles.
-    kON_PROFILE_CHANGE = 1, //!< Reallocate for a profile when it's selected.
-    kUSER_MANAGED = 2,      //!< The user supplies custom allocation to the execution context.
+    //!< Default static allocation with the maximum size across all profiles.
+    kSTATIC = 0,
+
+    //!< Reallocate for a profile when it's selected.
+    kON_PROFILE_CHANGE = 1,
+
+    //!< The user supplies custom allocation to the execution context.
+    kUSER_MANAGED = 2,
 } nvinfer1_ExecutionContextAllocationStrategy;
+
+//!
+//! \enum DataType
+//! \brief The type of weights and tensors.
+//!
+typedef enum nvinfer1_DataType
+{
+    //! 32-bit floating point format.
+    kFLOAT = 0,
+
+    //! IEEE 16-bit floating-point format -- has a 5 bit exponent and 11 bit significand.
+    kHALF = 1,
+
+    //! Signed 8-bit integer representing a quantized floating-point value.
+    kINT8 = 2,
+
+    //! Signed 32-bit integer format.
+    kINT32 = 3,
+
+    //! 8-bit boolean. 0 = false, 1 = true, other values undefined.
+    kBOOL = 4,
+
+    //! Unsigned 8-bit integer format.
+    //! Cannot be used to represent quantized floating-point values.
+    //! Use the IdentityLayer to convert kUINT8 network-level inputs to {kFLOAT, kHALF} prior
+    //! to use with other TensorRT layers, or to convert intermediate output
+    //! before kUINT8 network-level outputs from {kFLOAT, kHALF} to kUINT8.
+    //! kUINT8 conversions are only supported for {kFLOAT, kHALF}.
+    //! kUINT8 to {kFLOAT, kHALF} conversion will convert the integer values
+    //! to equivalent floating point values.
+    //! {kFLOAT, kHALF} to kUINT8 conversion will convert the floating point values
+    //! to integer values by truncating towards zero. This conversion has undefined behavior for
+    //! floating point values outside the range [0.0F, 256.0F) after truncation.
+    //! kUINT8 conversions are not supported for {kINT8, kINT32, kBOOL}.
+    kUINT8 = 5,
+
+    //! Signed 8-bit floating point with
+    //! 1 sign bit, 4 exponent bits, 3 mantissa bits, and exponent-bias 7.
+    kFP8 = 6,
+
+    //! Brain float -- has an 8 bit exponent and 8 bit significand.
+    kBF16 = 7,
+
+    //! Signed 64-bit integer type.
+    kINT64 = 8,
+
+    //! Signed 4-bit integer type.
+    kINT4 = 9,
+
+    //! 4-bit floating point type
+    //! 1 bit sign, 2 bit exponent, 1 bit mantissa
+    kFP4 = 10,
+
+} nvinfer1_DataType;
 
 //!
 //! \enum TensorIOMode
@@ -28,9 +87,14 @@ typedef enum nvinfer1_ExecutionContextAllocationStrategy
 //!
 typedef enum nvinfer1_TensorIOMode
 {
-    kNONE = 0,   //! Tensor is not an input or output.
-    kINPUT = 1,  //! Tensor is input to the engine.
-    kOUTPUT = 2, //! Tensor is output by the engine.
+    //! Tensor is not an input or output.
+    kNONE = 0,
+
+    //! Tensor is input to the engine.
+    kINPUT = 1,
+
+    //! Tensor is output by the engine.
+    kOUTPUT = 2,
 } nvinfer1_TensorIOMode;
 
 //!
@@ -40,11 +104,20 @@ typedef enum nvinfer1_TensorIOMode
 //!
 typedef enum nvinfer1_Severity
 {
-    kINTERNAL_ERROR = 0, //! An internal error has occurred. Execution is unrecoverable.
-    kERROR = 1,          //! An application error has occurred.
-    kWARNING = 2, //! An application error has been discovered, but TensorRT has recovered or fallen back to a default.
-    kINFO = 3,    //! Informational messages with instructional information.
-    kVERBOSE = 4, //! Verbose messages with debugging information.
+    //! An internal error has occurred. Execution is unrecoverable.
+    kINTERNAL_ERROR = 0,
+
+    //! An application error has occurred.
+    kERROR = 1,
+
+    //! An application error has been discovered, but TensorRT has recovered or fallen back to a default.
+    kWARNING = 2,
+
+    //! Informational messages with instructional information.
+    kINFO = 3,
+
+    //! Verbose messages with debugging information.
+    kVERBOSE = 4,
 } nvinfer1_Severity;
 
 //!
@@ -135,6 +208,19 @@ struct nvinfer1_IRuntime;
 //!
 extern "C" nvinfer1_IExecutionContext *nvinfer1_ICudaEngine_createExecutionContext(
     nvinfer1_ICudaEngine *engine, nvinfer1_ExecutionContextAllocationStrategy strategy);
+
+//!
+//! \brief Determine the required data type for a buffer from its tensor name.
+//!
+//! \param tensorName The name of an input or output tensor.
+//!
+//! \return The type of the data in the buffer, or DataType::kFLOAT if the provided name does not map to an input or
+//! output tensor.
+//!
+//! \warning The string tensorName must be null-terminated, and be at most 4096 bytes including the terminator.
+//!
+extern "C" nvinfer1_DataType nvinfer1_ICudaEngine_getTensorDataType(const nvinfer1_ICudaEngine *engine,
+                                                                    const char *tensorName);
 
 //!
 //! \brief Return the shape of the given input or output.

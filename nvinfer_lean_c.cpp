@@ -10,6 +10,12 @@ nvinfer1_IExecutionContext *nvinfer1_ICudaEngine_createExecutionContext(
             static_cast<nvinfer1::ExecutionContextAllocationStrategy>(strategy)));
 }
 
+nvinfer1_DataType nvinfer1_ICudaEngine_getTensorDataType(const nvinfer1_ICudaEngine *engine, const char *tensorName)
+{
+    return static_cast<nvinfer1_DataType>(
+        reinterpret_cast<const nvinfer1::ICudaEngine *>(engine)->getTensorDataType(tensorName));
+}
+
 nvinfer1::Dims nvinfer1_ICudaEngine_getTensorShape(const nvinfer1_ICudaEngine *engine, const char *tensorName)
 {
     return reinterpret_cast<const nvinfer1::ICudaEngine *>(engine)->getTensorShape(tensorName);
